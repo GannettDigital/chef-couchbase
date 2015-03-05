@@ -1,3 +1,3 @@
-site :opscode
+source "https://supermarket.chef.io"
 
-metadata
+cookbook "couchbase", git: "https://github.com/GannettDigital/chef-couchbase.git"
