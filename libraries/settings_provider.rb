@@ -13,11 +13,10 @@ class Chef
       end
 
       def action_modify
-        unless settings_match?
-          post "/settings/#{@new_resource.group}", @new_resource.settings
-          @new_resource.updated_by_last_action true
-          Chef::Log.info "#{@new_resource} modified"
-        end
+        return if settings_match?
+        post "/settings/#{@new_resource.group}", @new_resource.settings
+        @new_resource.updated_by_last_action true
+        Chef::Log.info "#{@new_resource} modified"
       end
 
       private
@@ -29,7 +28,7 @@ class Chef
       def settings_data
         @settings_data ||= begin
           response = get "/settings/#{@new_resource.group}"
-          Chef::Log.error response.body unless response.kind_of?(Net::HTTPSuccess) || response.body.to_s.empty?
+          Chef::Log.error response.body unless response.is_a?(Net::HTTPSuccess) || response.body.to_s.empty?
           response.value
           JSONCompat.from_json response.body
         end

@@ -6,18 +6,18 @@ class Chef
     class CouchbaseCluster < Resource
       include Couchbase::CredentialsAttributes
 
-      def cluster(arg=nil)
+      def cluster(arg = nil)
         set_or_return(:cluster, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def exists(arg=nil)
+      def exists(arg = nil)
         set_or_return(:exists, arg, :kind_of => [TrueClass, FalseClass], :required => true)
       end
 
-      def memory_quota_mb(arg=nil)
+      def memory_quota_mb(arg = nil)
         set_or_return(:memory_quota_mb, arg, :kind_of => Integer, :required => true, :callbacks => {
-        	"must be at least 256" => lambda { |quota| quota >= 256 }
-      	})
+                        "must be at least 256" => ->(quota) { quota >= 256 }
+                      })
       end
 
       def initialize(*)

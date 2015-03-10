@@ -6,33 +6,33 @@ class Chef
     class XdcrStart < Resource
       include Couchbase::CredentialsAttributes
 
-      def uuid(arg=nil)
+      def uuid(arg = nil)
         set_or_return(:uuid, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def to_cluster(arg=nil)
+      def to_cluster(arg = nil)
         set_or_return(:to_cluster, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def from_bucket(arg=nil)
+      def from_bucket(arg = nil)
         set_or_return(:from_bucket, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def to_bucket(arg=nil)
+      def to_bucket(arg = nil)
         set_or_return(:to_bucket, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def replication_type(arg=nil)
+      def replication_type(arg = nil)
         set_or_return(:replication_type, arg, :kind_of => String, :name_attribute => true, :default => "continuous")
-      end 
+      end
 
-      def username(arg=nil)
+      def username(arg = nil)
         set_or_return(:username, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def password(arg=nil)
+      def password(arg = nil)
         set_or_return(:password, arg, :kind_of => String, :name_attribute => true)
-      end      
+      end
 
       def initialize(*)
         super

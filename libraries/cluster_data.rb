@@ -11,8 +11,8 @@ module Couchbase
 
       @pool_data ||= begin
         response = get "/pools/#{@new_resource.cluster}"
-        response.error! unless response.kind_of?(Net::HTTPSuccess) || response.kind_of?(Net::HTTPNotFound)
-        Chef::JSONCompat.from_json response.body if response.kind_of? Net::HTTPSuccess
+        response.error! unless response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPNotFound)
+        Chef::JSONCompat.from_json response.body if response.is_a? Net::HTTPSuccess
       end
     end
   end

@@ -7,10 +7,8 @@ describe_recipe "couchbase::test_buckets" do
 
   describe "a default bucket" do
     let :bucket do
-      couchbase_bucket("default", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      couchbase_bucket("default",         :username => node["couchbase"]["server"]["username"],
+                                          :password => node["couchbase"]["server"]["password"])
     end
 
     it "exists" do
@@ -32,10 +30,8 @@ describe_recipe "couchbase::test_buckets" do
 
   describe "a memcached bucket" do
     let :bucket do
-      couchbase_bucket("memcached", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      couchbase_bucket("memcached",         :username => node["couchbase"]["server"]["username"],
+                                            :password => node["couchbase"]["server"]["password"])
     end
 
     it "exists" do
@@ -53,10 +49,8 @@ describe_recipe "couchbase::test_buckets" do
 
   describe "a modified bucket in MB" do
     let :bucket do
-      couchbase_bucket("modified_mb", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      couchbase_bucket("modified_mb",         :username => node["couchbase"]["server"]["username"],
+                                              :password => node["couchbase"]["server"]["password"])
     end
 
     it "exists" do
@@ -78,10 +72,8 @@ describe_recipe "couchbase::test_buckets" do
 
   describe "a modified bucket in %" do
     let :bucket do
-      couchbase_bucket("modified_percent", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      couchbase_bucket("modified_percent",         :username => node["couchbase"]["server"]["username"],
+                                                   :password => node["couchbase"]["server"]["password"])
     end
 
     it "exists" do

@@ -6,11 +6,11 @@ class Chef
     class CouchbaseNode < Resource
       include Couchbase::CredentialsAttributes
 
-      def id(arg=nil)
+      def id(arg = nil)
         set_or_return(:id, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def database_path(arg=nil)
+      def database_path(arg = nil)
         set_or_return(:database_path, arg, :kind_of => String, :default => "/opt/couchbase/var/lib/couchbase/data")
       end
 

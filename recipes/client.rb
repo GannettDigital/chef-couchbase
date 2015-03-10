@@ -33,7 +33,7 @@ when "debian"
     key "http://packages.couchbase.com/ubuntu/couchbase.key"
   end
 
-  %w{libcouchbase2 libcouchbase-dev}.each do |p|
+  %w(libcouchbase2 libcouchbase-dev).each do |p|
     package p do
       action :install
     end
@@ -58,7 +58,7 @@ when "rhel"
     action :add
   end
 
-  %w{libcouchbase2 libcouchbase-devel}.each do |p|
+  %w(libcouchbase2 libcouchbase-devel).each do |p|
     package p do
       action :install
     end

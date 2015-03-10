@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/LineLength
 default['couchbase']['server']['edition'] = "community"
 default['couchbase']['server']['version'] = "3.0.1"
 
@@ -5,9 +6,9 @@ default['couchbase']['server']['username'] = "Administrator"
 default['couchbase']['server']['password'] = "password"
 
 default['couchbase']['server']['memory_quota_mb'] = 4000
-#default['couchbase']['server']['memory_quota_mb'] = Couchbase::MaxMemoryQuotaCalculator.from_node(node).in_megabytes
+# default['couchbase']['server']['memory_quota_mb'] = Couchbase::MaxMemoryQuotaCalculator.from_node(node).in_megabytes
 
-#only supports version 3.0.0 and higher due to file name changes for package_file
+# only supports version 3.0.0 and higher due to file name changes for package_file
 case node['platform']
 when "debian"
   package_machine = node['kernel']['machine'] == "x86_64" ? "amd64" : "x86"
@@ -42,7 +43,7 @@ else
   default['couchbase']['server']['log_dir'] = "#{node['couchbase']['server']['install_dir']}/var/lib/couchbase/logs"
 end
 
-default['source']['bucket'] = "default"
-default['remote']['bucket'] = "default"
-default['cluster_name'] = "west_cluster"
-default['remote_cluster'] = "remote_cluster"
+default['couchbase']['server']['source']['bucket'] = "default"
+default['couchbase']['server']['remote']['bucket'] = "default"
+default['couchbase']['server']['cluster_name'] = "west_cluster"
+default['couchbase']['server']['remote_cluster'] = "remote_cluster"

@@ -12,7 +12,9 @@ else
 end
 
 default['couchbase']['moxi']['package_base_url'] = "http://packages.couchbase.com/releases/#{node['couchbase']['moxi']['version']}"
-default['couchbase']['moxi']['package_full_url'] = "#{node['couchbase']['moxi']['package_base_url']}/#{node['couchbase']['moxi']['package_file']}"
+default['couchbase']['moxi']['package_full_url'] = \
+  "#{node['couchbase']['moxi']['package_base_url']}/#{node['couchbase']['moxi']['package_file']}"
 
 default['couchbase']['moxi']['cluster_server'] = 'couchbase01'
-default['couchbase']['moxi']['cluster_rest_url'] = "http://#{node['couchbase']['moxi']['cluster_server']}:8091/pools/default/bucketsStreaming/default"
+default['couchbase']['moxi']['cluster_rest_url'] = \
+  "http://#{node['couchbase']['moxi']['cluster_server']}:8091/pools/default/bucketsStreaming/default"

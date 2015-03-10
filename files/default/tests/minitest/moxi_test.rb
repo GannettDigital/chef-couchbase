@@ -14,5 +14,4 @@ describe_recipe "couchbase::moxi" do
       moxi_server.must_be_running
     end
   end
-
 end

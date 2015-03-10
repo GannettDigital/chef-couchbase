@@ -8,18 +8,21 @@ class Chef
       include Couchbase::Client
       include Couchbase::ClusterData
 
+      # rubocop:disable Metrics/AbcSize
       def load_current_resource
         @current_resource = Resource::CouchbaseBucket.new @new_resource.name
         @current_resource.bucket @new_resource.bucket
         @current_resource.cluster @new_resource.cluster
-        @current_resource.exists !!bucket_data
+        # @current_resource.exists !!bucket_data
+        @current_resource.exists !bucket_data.nil?
 
-        if @current_resource.exists
-          @current_resource.type bucket_type
-          @current_resource.memory_quota_mb bucket_memory_quota_mb
-          @current_resource.replicas bucket_replicas
-        end
+        # if @current_resource.exists
+        return unless @current_resource.exists
+        @current_resource.type bucket_type
+        @current_resource.memory_quota_mb bucket_memory_quota_mb
+        @current_resource.replicas bucket_replicas
       end
+      # rubocop:enable Metrics/AbcSize
 
       def action_create
         if !@current_resource.exists
@@ -50,7 +53,7 @@ class Chef
           "bucketType" => new_api_type,
           "name" => new_resource.bucket,
           "ramQuotaMB" => new_memory_quota_mb,
-          "replicaNumber" => new_resource.replicas || 0,
+          "replicaNumber" => new_resource.replicas || 0
         }
       end
 
@@ -60,7 +63,7 @@ class Chef
 
       def modify_params
         {
-          "ramQuotaMB" => new_memory_quota_mb,
+          "ramQuotaMB" => new_memory_quota_mb
         }
       end
 
@@ -85,8 +88,8 @@ class Chef
 
         @bucket_data ||= begin
           response = get "/pools/#{@new_resource.cluster}/buckets/#{@new_resource.bucket}"
-          response.error! unless response.kind_of?(Net::HTTPSuccess) || response.kind_of?(Net::HTTPNotFound)
-          JSONCompat.from_json response.body if response.kind_of? Net::HTTPSuccess
+          response.error! unless response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPNotFound)
+          JSONCompat.from_json response.body if response.is_a? Net::HTTPSuccess
         end
       end
     end
