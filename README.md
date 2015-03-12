@@ -1,7 +1,7 @@
 DESCRIPTION
 ===========
 
-Installs and configures Couchbase.
+Installs and configures Couchbase. Will also handle setting up a cluster.
 
 REQUIREMENTS
 ============

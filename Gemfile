@@ -1,23 +1,21 @@
-source "https://rubygems.org"
+# -*- encoding: utf-8 -*-
+source 'https://rubygems.org'
 
-gem "activesupport"
-gem "berkshelf"
-gem "vagrant", "~> 1.0.6"
-gem "vagrant-windows"
-gem "chef"
-gem "foodcritic", "!= 1.4.0" # https://github.com/acrmp/foodcritic/issues/37
-gem "knife-ec2"
-gem "minitest-chef-handler"
-gem "rake"
-gem "rspec"
-gem "spiceweasel"
-gem "webmock"
+group :test do
+  gem 'berkshelf', '~> 3.1'
+  gem 'chefspec', '~> 4.2'
+  gem 'foodcritic', '~> 4.0.0'
+  gem 'rake', '>= 10.2'
+  gem 'rubocop', '= 0.28.0'
+end
 
-group :development do
-  gem "growl"
-  gem "guard"
-  gem "guard-bundler"
-  gem "guard-foodcritic"
-  gem "guard-rspec"
-  gem "rb-fsevent"
+group :integration do
+  gem 'guard', '>= 2.6'
+  gem 'guard-foodcritic', '~> 1.0.3'
+  gem 'guard-kitchen'
+  gem 'guard-rspec'
+  gem 'guard-rubocop', '>= 1.1'
+  gem 'kitchen-vagrant'
+  gem 'test-kitchen', '~> 1.2.0'
+  gem 'travis-lint'
 end

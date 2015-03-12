@@ -35,8 +35,8 @@ describe_recipe "couchbase::server" do
     let(:static_config) { file "/opt/couchbase/etc/couchbase/static_config" }
 
     it "moves the log directory" do
-      static_config.must_include %{{error_logger_mf_dir, "#{node['couchbase']['server']['log_dir']}"}.}
-      static_config.wont_match /error_logger_mf_dir.*error_logger_mf_dir/
+      static_config.must_include %({error_logger_mf_dir, "#{node['couchbase']['server']['log_dir']}"}.)
+      static_config.wont_match(/error_logger_mf_dir.*error_logger_mf_dir/)
     end
   end
 
@@ -55,10 +55,8 @@ describe_recipe "couchbase::server" do
 
   describe "self Couchbase node" do
     let(:node_self) do
-      couchbase_node("self", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      couchbase_node("self",         :username => node["couchbase"]["server"]["username"],
+                                     :password => node["couchbase"]["server"]["password"])
     end
 
     it "has its database path configured" do
@@ -68,10 +66,12 @@ describe_recipe "couchbase::server" do
 
   describe "default Couchbase cluster" do
     let(:cluster) do
-      couchbase_cluster("default", {
-        :username => node["couchbase"]["server"]["username"],
-        :password => node["couchbase"]["server"]["password"],
-      })
+      # couchbase_cluster("default", {
+      couchbase_cluster("default",
+                        :username => node["couchbase"]["server"]["username"],
+                        :password => node["couchbase"]["server"]["password"]
+       # })
+       )
     end
 
     it "exists" do

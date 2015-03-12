@@ -62,7 +62,7 @@ directory node['couchbase']['server']['log_dir'] do
 end
 
 ruby_block "rewrite_couchbase_log_dir_config" do
-  log_dir_line = %{{error_logger_mf_dir, "#{node['couchbase']['server']['log_dir']}"}.}
+  log_dir_line = %({error_logger_mf_dir, "#{node['couchbase']['server']['log_dir']}"}.)
 
   block do
     file = Chef::Util::FileEdit.new("/opt/couchbase/etc/couchbase/static_config")
@@ -90,6 +90,15 @@ couchbase_node "self" do
   password node['couchbase']['server']['password']
 end
 
+couchbase_settings "web" do
+  settings("username" => node['couchbase']['server']['username'],
+           "password" => node['couchbase']['server']['password'],
+           "port" => 8091)
+
+  username node['couchbase']['server']['username']
+  password node['couchbase']['server']['password']
+end
+
 couchbase_cluster "default" do
   memory_quota_mb node['couchbase']['server']['memory_quota_mb']
 
@@ -97,14 +106,9 @@ couchbase_cluster "default" do
   password node['couchbase']['server']['password']
 end
 
-couchbase_settings "web" do
-  settings({
-    "username" => node['couchbase']['server']['username'],
-    "password" => node['couchbase']['server']['password'],
-    "port" => 8091,
-  })
+couchbase_pool "default" do
+  memory_quota_mb node['couchbase']['server']['memory_quota_mb']
 
   username node['couchbase']['server']['username']
   password node['couchbase']['server']['password']
 end
-

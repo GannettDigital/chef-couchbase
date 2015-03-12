@@ -6,20 +6,24 @@ class Chef
     class ClusterRebal < Resource
       include Couchbase::CredentialsAttributes
 
-      def knownNodes(arg=nil)
-        set_or_return(:knownNodes, arg, :kind_of => String, :name_attribute => true)
+      def known_nodes(arg = nil)
+        set_or_return(:known_nodes, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def ejectedNodes(arg=nil)
-        set_or_return(:ejectedNodes, arg, :kind_of => String, :name_attribute => true)
+      def ejected_nodes(arg = nil)
+        set_or_return(:ejected_nodes, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def username(arg=nil)
+      def username(arg = nil)
         set_or_return(:username, arg, :kind_of => String, :name_attribute => true)
       end
 
-      def password(arg=nil)
+      def password(arg = nil)
         set_or_return(:password, arg, :kind_of => String, :name_attribute => true)
+      end
+
+      def clusterip(arg = nil)
+        set_or_return(:clusterip, arg, :kind_of => String, :name_attribute => true)
       end
 
       def initialize(*)

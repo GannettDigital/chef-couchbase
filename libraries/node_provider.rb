@@ -14,11 +14,10 @@ class Chef
       end
 
       def action_modify
-        if @current_resource.database_path != @new_resource.database_path
-          post "/nodes/#{@new_resource.id}/controller/settings", "path" => @new_resource.database_path
-          @new_resource.updated_by_last_action true
-          Chef::Log.info "#{@new_resource} modified"
-        end
+        return unless @current_resource.database_path != @new_resource.database_path
+        post "/nodes/#{@new_resource.id}/controller/settings", "path" => @new_resource.database_path
+        @new_resource.updated_by_last_action true
+        Chef::Log.info "#{@new_resource} modified"
       end
 
       private
@@ -30,7 +29,7 @@ class Chef
       def node_data
         @node_data ||= begin
           response = get "/nodes/#{@new_resource.id}"
-          Chef::Log.error response.body unless response.kind_of?(Net::HTTPSuccess) || response.body.empty?
+          Chef::Log.error response.body unless response.is_a?(Net::HTTPSuccess) || response.body.empty?
           response.value
           JSONCompat.from_json response.body
         end

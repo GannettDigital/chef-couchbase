@@ -3,11 +3,11 @@ require File.join(File.dirname(__FILE__), "credentials_attributes")
 
 class Chef
   class Resource
-    class CouchbaseCluster < Resource
+    class CouchbasePool < Resource
       include Couchbase::CredentialsAttributes
 
-      def cluster(arg = nil)
-        set_or_return(:cluster, arg, :kind_of => String, :name_attribute => true)
+      def pool(arg = nil)
+        set_or_return(:pool, arg, :kind_of => String, :name_attribute => true)
       end
 
       def exists(arg = nil)
@@ -21,11 +21,11 @@ class Chef
       end
 
       def initialize(*)
-        Chef::Log.info("Dann initializing create")
+        Chef::Log.info("Dann initializing pool")
         super
-        @action = :create_if_missing
-        @allowed_actions.push :create_if_missing
-        @resource_name = :couchbase_cluster
+        @action = :modify_if_existing
+        @allowed_actions.push :modify_if_existing
+        @resource_name = :couchbase_provider
       end
     end
   end

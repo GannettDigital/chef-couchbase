@@ -1,5 +1,5 @@
 module Couchbase
-  module ClusterData
+  module PoolData
     private
 
     def pool_memory_quota_mb
@@ -10,7 +10,7 @@ module Couchbase
       return @pool_data if instance_variable_defined? "@pool_data"
 
       @pool_data ||= begin
-        response = get "/pools/#{@new_resource.cluster}"
+        response = get "/pools/#{@new_resource.pool}"
         response.error! unless response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPNotFound)
         Chef::JSONCompat.from_json response.body if response.is_a? Net::HTTPSuccess
       end
