@@ -22,7 +22,6 @@ class Chef
       end
 
       def initialize(*)
-        Chef::Log.info('Dann initializing pool')
         super
         @action = :modify_if_existing
         @allowed_actions.push :modify_if_existing

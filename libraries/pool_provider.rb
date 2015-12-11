@@ -6,6 +6,7 @@ class Chef
   class Provider
     # Provices Class CouchbasePool < Provider
     class CouchbasePool < Provider
+      provides :couchbase_pool
       include Couchbase::Client
       include Couchbase::PoolData
 

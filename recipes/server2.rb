@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: couchbase
-# Recipe:: server
+# Recipe:: server2
 #
 # Copyright 2012, getaroom
 #
@@ -24,29 +24,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-remote_file File.join(Chef::Config[:file_cache_path], node['couchbase']['server']['package_file']) do
-  source node['couchbase']['server']['package_full_url']
-  action :create_if_missing
-end
-
-case node['platform']
-when 'debian', 'ubuntu'
-  dpkg_package File.join(Chef::Config[:file_cache_path], node['couchbase']['server']['package_file'])
-when 'redhat', 'centos', 'scientific', 'amazon', 'fedora'
-  rpm_package File.join(Chef::Config[:file_cache_path], node['couchbase']['server']['package_file'])
-when 'windows'
-
-  template "#{Chef::Config[:file_cache_path]}/setup.iss" do
-    source 'setup.iss.erb'
-    action :create
-  end
-
-  windows_package 'Couchbase Server' do
-    source File.join(Chef::Config[:file_cache_path], node['couchbase']['server']['package_file'])
-    options '/s'
-    installer_type :custom
-    action :install
-  end
+couchbase_install_server 'self' do
+  version node['couchbase']['server']['version']
+  edition node['couchbase']['server']['edition']
 end
 
 service 'couchbase-server' do
@@ -81,27 +61,31 @@ directory node['couchbase']['server']['database_path'] do
   recursive true
 end
 
-unless node['couchbase']['server']['database_path'] == node['couchbase']['server']['index_path']
-  directory node['couchbase']['server']['index_path'] do
-    owner 'couchbase'
-    group 'couchbase'
-    mode 0755
-    recursive true
-  end
+directory node['couchbase']['server']['index_path'] do
+  owner 'couchbase'
+  group 'couchbase'
+  mode 0755
+  recursive true
+  only_if { node['couchbase']['server']['database_path'] == node['couchbase']['server']['index_path'] }
 end
 
-couchbase_node 'self' do
+couchbase_node_directories 'self' do
   database_path node['couchbase']['server']['database_path']
   index_path node['couchbase']['server']['index_path']
-  retry_delay 30
-  retries 4
-
   username node['couchbase']['server']['username']
   password node['couchbase']['server']['password']
+  install_path node['couchbase']['server']['install_dir']
 end
 
-if node['couchbase']['server']['setup_cluster']
-  include_recipe 'couchbase::setup_cluster'
-else
-  include_recipe 'couchbase::setup_server'
+# version = node['couchbase']['server']['version'].split('.').first.to_i
+
+couchbase_cluster_init 'self' do
+  services node['couchbase']['server']['services']
+  version node['couchbase']['server']['version']
+  ramsize node['couchbase']['server']['memory_quota_mb']
+  index_ramsize node['couchbase']['server']['index_memory_quota_mb']
+  username node['couchbase']['server']['username']
+  password node['couchbase']['server']['password']
+  install_path node['couchbase']['server']['install_dir']
+  only_if { node['couchbase']['server']['run_cluster_init'] == true }
 end

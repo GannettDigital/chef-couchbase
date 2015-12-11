@@ -11,15 +11,17 @@ cluster_name = node['couchbase']['server']['cluster_name']
 # selfipaddress = node['ipaddress'] if node["ipaddress"] != selfipaddress
 selfipaddress = node['ipaddress']
 
-# for vagrant testing set and attribute vagrant = true in your role or Vagrant file.
-if Chef::Config[:solo] && !Chef::Config[:local_mode]
-  Chef::Log.warn('This recipe uses search and Chef solo does not support search.')
-else
-  cluster = search(:node, "role:#{cluster_name}")
-end
+if node['couchbase']['server']['cluster_master'] == selfipaddress
 
-unless cluster.empty?
-  target = node_to_join(cluster, selfipaddress, node['couchbase']['server']['username'], node['couchbase']['server']['password'])
+  if Chef::Config[:solo] && !Chef::Config[:local_mode]
+    Chef::Log.warn('This recipe uses search and Chef solo does not support search.')
+  else
+    cluster = search(:node, "role:#{cluster_name}")
+  end
+
+  unless cluster.empty?
+    target = node_to_join(cluster, selfipaddress, node['couchbase']['server']['username'], node['couchbase']['server']['password'])
+  end
 end
 
 if target
@@ -37,6 +39,8 @@ if target
     password node['couchbase']['server']['password']
     clusterip target['nodetojoin']
   end
+else
+  include_recipe 'couchbase::setup_server'
 end
 
 ruby_block 'wait for rebalance completion ' do

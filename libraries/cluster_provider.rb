@@ -6,6 +6,7 @@ class Chef
   class Provider
     # Provides Class CouchbaseCluster < Provider
     class CouchbaseCluster < Provider
+      provides :couchbase_cluster
       include Couchbase::Client
       include Couchbase::ClusterData
 

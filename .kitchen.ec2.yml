@@ -31,9 +31,8 @@ suites:
   - name: couchbase_server 
     data_bags_path: test/integration/data_bags
     run_list:
-      - recipe[couchbase::server]
+      - recipe[couchbase::server2]
     attributes:
       couchbase:
         server:
           memory_quota_mb: 256
-          version: "4.0.0"

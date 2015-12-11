@@ -5,6 +5,7 @@ class Chef
   class Provider
     # Provides Class CouchbaseSettings < Provider
     class CouchbaseSettings < Provider
+      provides :couchbase_settings
       include Couchbase::Client
 
       def load_current_resource
