@@ -28,8 +28,8 @@ module Couchbase
       @total_in_bytes = total_in_bytes
     end
 
-    def in_megabytes
-      [max_megabytes_by_percent, max_megabytes_by_reserve].max
+    def in_megabytes(node)
+      [max_megabytes_by_percent, max_megabytes_by_reserve].max - node['couchbase']['server']['index_memory_quota_mb']
     end
 
     protected

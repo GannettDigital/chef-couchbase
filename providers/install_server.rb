@@ -24,7 +24,8 @@ def build_rpm_name(version, edition)
   if version < '3.0.0'
     return "couchbase-server-#{edition}_#{version}_#{arch}.rpm"
   else
-    return "couchbase-server-#{edition}-#{version}-centos6.#{arch}.rpm"
+    release = node['platform_version'].split('.').first
+    return "couchbase-server-#{edition}-#{version}-centos#{release}.#{arch}.rpm"
   end
 end
 
