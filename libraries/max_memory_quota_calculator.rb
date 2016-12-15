@@ -29,7 +29,7 @@ module Couchbase
     end
 
     def in_megabytes
-      [max_megabytes_by_percent, max_megabytes_by_reserve].max
+      [max_megabytes_by_percent, max_megabytes_by_reserve].max - node['couchbase']['server']['index_memory_quota_mb']
     end
 
     protected
