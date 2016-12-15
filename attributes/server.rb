@@ -4,9 +4,10 @@ default['couchbase']['server']['version'] = '4.0.0'
 default['couchbase']['server']['username'] = 'Administrator'
 default['couchbase']['server']['password'] = 'password'
 
-# default['couchbase']['server']['memory_quota_mb'] = Couchbase::MaxMemoryQuotaCalculator.from_node(node).in_megabytes
-default['couchbase']['server']['memory_quota_mb'] = 4000
 default['couchbase']['server']['index_memory_quota_mb'] = 256
+default['couchbase']['server']['memory_quota_mb'] = Couchbase::MaxMemoryQuotaCalculator.from_node(node).in_megabytes(node)
+#default['couchbase']['server']['memory_quota_mb'] = 4000
+
 default['couchbase']['server']['services'] = 'data,query,index'
 default['couchbase']['server']['services_api'] = 'kv,n1ql,index'
 
